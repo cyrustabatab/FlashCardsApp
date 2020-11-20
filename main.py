@@ -26,7 +26,8 @@ random.shuffle(countries)
 countries_index = len(countries) - 1
 
 def switch_country():
-    global current_country,timer,countries_index,seen_all_cards
+    global current_country,timer,countries_index,seen_all_cards,showing_answer
+    showing_answer = False
     window.after_cancel(timer)
     countries_index -= 1
     if countries_index < 0:
@@ -48,23 +49,29 @@ def switch_country():
         timer = window.after(3000,flip_card)
 
 def flip_card():
+    global showing_answer
+    showing_answer = True
     canvas.itemconfig(card_image,image=back_image)
     canvas.itemconfig(label,text='Capital',fill='white')
     canvas.itemconfig(country_text,text=countries_to_capitals[current_country],fill='white')
 
 def know_it():
-    if seen_all_cards: 
+    
+    if seen_all_cards or not showing_answer: 
         return
     del countries_to_capitals[current_country]
     switch_country()
 
 def do_not_know_it():
-    if seen_all_cards: 
+    if seen_all_cards or not showing_answer: 
         return
     switch_country()
 
+def reset():
+    pass
 BACKGROUND_COLOR = "#B1DDC6"
 
+showing_answer = False
 window = tkinter.Tk()
 window.configure(bg=BACKGROUND_COLOR,padx=50,pady=50)
 
@@ -91,6 +98,12 @@ wrong_button.grid(row=1,column=0)
 right_image = tkinter.PhotoImage(file="images/right.png")
 right_button = tkinter.Button(image=right_image,highlightthickness=0,command=know_it)
 right_button.grid(row=1,column=1)
+
+
+reset_button = tkinter.Button(text="RESET",font=('Arial','40','normal'),command=reset)
+reset_button.grid(row=2,column=0,columnspan=2)
+
+
 
 window.mainloop()
 
