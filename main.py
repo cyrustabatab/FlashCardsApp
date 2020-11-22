@@ -97,7 +97,7 @@ card_image = canvas.create_image(400,526//2,image=front_image)
 
 current_country = countries[countries_index]
 label = canvas.create_text(400,150,text='Country',font=('Arial',40,'italic'))
-country_text = canvas.create_text(400,526//2,text=current_country,font=('Arial',60,'bold'))
+country_text = canvas.create_text(400,526//2,text=current_country,width=780,font=('Arial',60,'bold'))
 canvas.grid(row=0,column=0,columnspan=2)
 
 
